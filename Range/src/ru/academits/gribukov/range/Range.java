@@ -27,6 +27,7 @@ public class Range {
 
     /**
      * Получения длины диапазона
+     *
      * @return double
      */
     public double getLength() {
@@ -36,6 +37,7 @@ public class Range {
     /**
      * Принадлежит ли число диапазону.
      * Принимает вещественное число и возвращает boolean – результат проверки
+     *
      * @param number double
      * @return boolean
      */
@@ -48,6 +50,7 @@ public class Range {
      * Получение интервала-пересечения двух интервалов.
      * Если пересечения нет, выдать null.
      * Если есть, то выдать новый диапазон с соответствующими концами
+     *
      * @param range Range
      * @return Range or null
      */
@@ -83,5 +86,38 @@ public class Range {
         }
 
         return null;
+    }
+
+    /**
+     * Получение объединения двух интервалов.
+     * Может получиться 1 или 2 отдельных куска
+     *
+     * @param range Range
+     * @return Range[1] or Range[2]
+     */
+    public Range[] getUnion(Range range) {
+
+        if (this.isInside(range.from)) {
+            if (!this.isInside(range.to)) {
+                this.setTo(range.to);
+            }
+
+            return new Range[]{this};
+        }
+
+        if (this.isInside(range.to)) {
+            this.setFrom(range.from);
+
+            return new Range[]{this};
+        }
+
+        if (range.isInside(this.to)) {
+            this.setFrom(range.from);
+            this.setTo(range.to);
+
+            return new Range[]{this};
+        }
+
+        return new Range[]{this, range};
     }
 }

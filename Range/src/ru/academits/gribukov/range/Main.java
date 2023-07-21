@@ -1,10 +1,8 @@
 package ru.academits.gribukov.range;
 
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Range range = new Range(2, 10);
+        Range range = new Range(5, 12);
         /*
         System.out.printf("Заданный диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
 
@@ -33,13 +31,19 @@ public class Main {
 
          */
 
-        Range range2 = new Range(10, 18);
+        Range range2 = new Range(13, 15);
 
-        range = range.getIntersection(range2);
-        if (range != null) {
-            System.out.printf("Получилось диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
-        } else  {
-            System.out.print("Получилось нулевое значение");
+        Range[] rangeArray = range.getUnion(range2);
+        if (rangeArray.length == 2) {
+            System.out.printf("Получилось 2 диапазона%n" +
+                            "Первый диапозон имеет значения:%n from = %f%n to = %f.%n" +
+                            "Второй диапозон имеет значения:%n from = %f%n to = %f.%n",
+                    rangeArray[0].getFrom(), rangeArray[0].getTo(),
+                    rangeArray[1].getFrom(), rangeArray[1].getTo());
+        } else {
+            System.out.printf("Получился 1 диапазона%n" +
+                            "Диапозон имеет значения:%n from = %f%n to = %f",
+                    rangeArray[0].getFrom(), rangeArray[0].getTo());
         }
     }
 }
