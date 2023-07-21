@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Range range = new Range(1.5, 9.5);
-
+        Range range = new Range(2, 10);
+        /*
         System.out.printf("Заданный диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
 
         System.out.println("Теперь задвайте зададим свое значение и узнаем длину диапазона:");
@@ -29,6 +29,17 @@ public class Main {
             System.out.printf("Число %f принадлежит диапазону (%f;%f)", number, range.getFrom(), range.getTo());
         } else {
             System.out.printf("Число %f не принадлежит диапазону (%f;%f)", number, range.getFrom(), range.getTo());
+        }
+
+         */
+
+        Range range2 = new Range(10, 18);
+
+        range = range.getIntersection(range2);
+        if (range != null) {
+            System.out.printf("Получилось диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
+        } else  {
+            System.out.print("Получилось нулевое значение");
         }
     }
 }
