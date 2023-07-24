@@ -1,3 +1,5 @@
+package ru.academits.gribukov.shape;
+
 public class Triangle implements Shape {
     private final double x1;
     private final double y1;

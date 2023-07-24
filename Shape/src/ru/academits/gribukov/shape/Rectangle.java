@@ -1,3 +1,5 @@
+package ru.academits.gribukov.shape;
+
 public class Rectangle implements Shape{
 
     private final double height;

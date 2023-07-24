@@ -1,3 +1,5 @@
+package ru.academits.gribukov.shape;
+
 public class Circle implements Shape {
     private final double radius;
 

@@ -1,3 +1,5 @@
+package ru.academits.gribukov.shape;
+
 public class Square implements Shape {
     private final double side;
 
