@@ -2,7 +2,7 @@ package ru.academits.gribukov.range;
 
 public class Main {
     public static void main(String[] args) {
-        Range range = new Range(5, 12);
+        Range range = new Range(12, 32);
         /*
         System.out.printf("Заданный диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
 
@@ -31,19 +31,21 @@ public class Main {
 
          */
 
-        Range range2 = new Range(13, 15);
+        Range range2 = new Range(3, 35);
 
-        Range[] rangeArray = range.getUnion(range2);
+        Range[] rangeArray = range.getDifference(range2);
         if (rangeArray.length == 2) {
             System.out.printf("Получилось 2 диапазона%n" +
                             "Первый диапозон имеет значения:%n from = %f%n to = %f.%n" +
                             "Второй диапозон имеет значения:%n from = %f%n to = %f.%n",
                     rangeArray[0].getFrom(), rangeArray[0].getTo(),
                     rangeArray[1].getFrom(), rangeArray[1].getTo());
-        } else {
+        } else if (rangeArray.length == 1) {
             System.out.printf("Получился 1 диапазона%n" +
                             "Диапозон имеет значения:%n from = %f%n to = %f",
                     rangeArray[0].getFrom(), rangeArray[0].getTo());
+        } else if (rangeArray.length == 0) {
+            System.out.print("Получился пустой массив");
         }
     }
 }
