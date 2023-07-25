@@ -1,4 +1,6 @@
-package ru.academits.gribukov.range;
+package ru.academits.gribukov.main;
+
+import ru.academits.gribukov.range.Range;
 
 public class Main {
     public static void main(String[] args) {
@@ -6,7 +8,7 @@ public class Main {
         /*
         System.out.printf("Заданный диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
 
-        System.out.println("Теперь задвайте зададим свое значение и узнаем длину диапазона:");
+        System.out.println("Теперь давайте зададим свое значение и узнаем длину диапазона:");
 
         Scanner scanner = new Scanner(System.in);
 
