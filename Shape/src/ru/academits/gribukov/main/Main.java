@@ -2,6 +2,7 @@ package ru.academits.gribukov.main;
 
 import ru.academits.gribukov.shape.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
@@ -36,6 +37,12 @@ public class Main {
         Shape circle3 = new Circle(random.nextDouble(20) + 1);
         Shape circle4 = new Circle(random.nextDouble(20) + 1);
 
+        Shape[] shapesArray = {square1, triangle1, rectangle1, circle1,
+                square2, triangle2, rectangle2, circle2,
+                square3, triangle3, rectangle3, circle3,
+                square4, triangle4, rectangle4, circle4,};
+
+        /*
         System.out.println("Квадраты:");
         System.out.println(square1.getHeight() + ", " + square1.getWidth() + ", " +
                 square1.getArea() + ", " + square1.getPerimeter());
@@ -78,5 +85,24 @@ public class Main {
                 circle3.getArea() + ", " + circle3.getPerimeter());
         System.out.println(circle4.getHeight() + ", " + circle4.getWidth() + ", " +
                 circle4.getArea() + ", " + circle4.getPerimeter());
+        System.out.println();
+         */
+
+        Shape shapeWithMaxArea = getShapeWithMaxArea(shapesArray);
+        System.out.printf("Фигура с самой большой площадью %s%nПлощадь равна: %f", shapeWithMaxArea.getClass(), shapeWithMaxArea.getArea());
+        System.out.println();
+
+        Shape shapeWithSecondMaxArea = getShapeWithSecondMaxArea(shapesArray);
+        System.out.printf("Фигура со второй по величене площадью %s%nПлощадь равна: %f", shapeWithSecondMaxArea.getClass(), shapeWithSecondMaxArea.getArea());
+    }
+    public static Shape getShapeWithMaxArea(Shape ... shapesArray){
+        Shape[] shapesArraySortByArea = Arrays.copyOf(shapesArray, shapesArray.length);
+        Arrays.sort(shapesArraySortByArea, new SortByArea());
+        return shapesArraySortByArea[0];
+    }
+    public static Shape getShapeWithSecondMaxArea(Shape ... shapesArray){
+        Shape[] shapesArraySortByArea = Arrays.copyOf(shapesArray, shapesArray.length);
+        Arrays.sort(shapesArraySortByArea, new SortByArea());
+        return shapesArraySortByArea[1];
     }
 }
