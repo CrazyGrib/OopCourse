@@ -20,8 +20,8 @@ public class Triangle implements Shape {
     @Override
     public double getWidth() {
         double maxX = Math.max(x1, Math.max(x2, x3));
-        double minY = Math.min(y1, Math.min(y2, y3));
-        return maxX- minY;
+        double minX = Math.min(x1, Math.min(x2, x3));
+        return maxX- minX;
     }
 
     @Override
