@@ -40,16 +40,16 @@ public class Main {
         Range range1 = new Range(12, 24);
         Range range2 = new Range(13, 16);
 
-        System.out.printf("Имеем 2 диапозона %n" + range1 + "%n" + range2 + "%n");
+        System.out.printf("Имеем 2 диапазона %n" + range1 + "%n" + range2 + "%n");
 
         Range intersectionRange = range1.getIntersection(range2);
-        System.out.printf("Результат пересечения диапозонов%n" + intersectionRange + "%n");
+        System.out.printf("Результат пересечения диапазонов%n" + intersectionRange + "%n");
 
         Range[] rangeUnionArray = range1.getUnion(range2);
-        System.out.printf("Результат объединения диапозонов%n" + Arrays.toString(rangeUnionArray) + "%n");
+        System.out.printf("Результат объединения диапазонов%n" + Arrays.toString(rangeUnionArray) + "%n");
 
 
         Range[] rangeDifferenceArray = range1.getDifference(range2);
-        System.out.printf("Результат разности диапозонов%n" + Arrays.toString(rangeDifferenceArray) + "%n");
+        System.out.printf("Результат разности диапазонов%n" + Arrays.toString(rangeDifferenceArray) + "%n");
     }
 }
