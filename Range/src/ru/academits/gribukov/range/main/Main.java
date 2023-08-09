@@ -1,11 +1,14 @@
-package ru.academits.gribukov.main;
+package ru.academits.gribukov.range.main;
 
 import ru.academits.gribukov.range.Range;
+
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Range range = new Range(12, 32);
-        /*
+
         System.out.printf("Заданный диапазон имеет значения:%n from = %f%n to = %f%n", range.getFrom(), range.getTo());
 
         System.out.println("Теперь давайте зададим свое значение и узнаем длину диапазона:");
@@ -31,23 +34,22 @@ public class Main {
             System.out.printf("Число %f не принадлежит диапазону (%f;%f)", number, range.getFrom(), range.getTo());
         }
 
-         */
+        System.out.println();
+        System.out.println();
 
-        Range range2 = new Range(3, 35);
+        Range range1 = new Range(12, 24);
+        Range range2 = new Range(13, 16);
 
-        Range[] rangeArray = range.getDifference(range2);
-        if (rangeArray.length == 2) {
-            System.out.printf("Получилось 2 диапазона%n" +
-                            "Первый диапозон имеет значения:%n from = %f%n to = %f.%n" +
-                            "Второй диапозон имеет значения:%n from = %f%n to = %f.%n",
-                    rangeArray[0].getFrom(), rangeArray[0].getTo(),
-                    rangeArray[1].getFrom(), rangeArray[1].getTo());
-        } else if (rangeArray.length == 1) {
-            System.out.printf("Получился 1 диапазона%n" +
-                            "Диапозон имеет значения:%n from = %f%n to = %f",
-                    rangeArray[0].getFrom(), rangeArray[0].getTo());
-        } else if (rangeArray.length == 0) {
-            System.out.print("Получился пустой массив");
-        }
+        System.out.printf("Имеем 2 диапозона %n" + range1 + "%n" + range2 + "%n");
+
+        Range intersectionRange = range1.getIntersection(range2);
+        System.out.printf("Результат пересечения диапозонов%n" + intersectionRange + "%n");
+
+        Range[] rangeUnionArray = range1.getUnion(range2);
+        System.out.printf("Результат объединения диапозонов%n" + Arrays.toString(rangeUnionArray) + "%n");
+
+
+        Range[] rangeDifferenceArray = range1.getDifference(range2);
+        System.out.printf("Результат разности диапозонов%n" + Arrays.toString(rangeDifferenceArray) + "%n");
     }
 }

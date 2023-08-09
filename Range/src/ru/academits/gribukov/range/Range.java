@@ -55,41 +55,10 @@ public class Range {
      * @return Range or null
      */
     public Range getIntersection(Range range) {
-        double epsilon = 1.0e-10;
-        Range newRange = new Range(this.from, this.to);
-
-        if (this.isInside(range.from)) {
-            newRange.setFrom(range.from);
-
-            if (this.isInside(range.to)) {
-                newRange.setTo(range.to);
-            }
-
-            if (Math.abs(newRange.from - newRange.to) <= epsilon) {
-                return null;
-            }
-
-            return newRange;
+        if (from >= range.to || to <= range.from) {
+            return null;
         }
-
-        newRange.setFrom(range.from);
-        newRange.setTo(range.to);
-
-        if (range.isInside(this.from)) {
-            newRange.setFrom(this.from);
-
-            if (range.isInside(this.to)) {
-                newRange.setTo(this.to);
-            }
-
-            if (Math.abs(range.from - range.to) <= epsilon) {
-                return null;
-            }
-
-            return newRange;
-        }
-
-        return null;
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
     /**
@@ -100,32 +69,10 @@ public class Range {
      * @return Range[1] or Range[2]
      */
     public Range[] getUnion(Range range) {
-        Range firstRange = new Range(this.from, this.to);
-        Range secondRange = new Range(range.from, range.to);
-
-
-        if (this.isInside(range.from)) {
-            if (!this.isInside(range.to)) {
-                firstRange.setTo(range.to);
-            }
-
-            return new Range[]{firstRange};
+        if (from > range.to || to < range.from) {
+            return new Range[]{this, range};
         }
-
-        if (this.isInside(range.to)) {
-            firstRange.setFrom(range.from);
-
-            return new Range[]{firstRange};
-        }
-
-        if (range.isInside(this.to)) {
-            firstRange.setFrom(range.from);
-            firstRange.setTo(range.to);
-
-            return new Range[]{firstRange};
-        }
-
-        return new Range[]{firstRange, secondRange};
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     /**
@@ -133,44 +80,19 @@ public class Range {
      * Может получиться 0, 1 или 2 отдельных куска
      *
      * @param range Range
-     * @return Range[0] or]Range[1] or Range[2]
+     * @return Range[0] or Range[1] or Range[2]
      */
     public Range[] getDifference(Range range) {
-        double epsilon = 1.0e-10;
-        Range firstRange = new Range(this.from, this.to);
-        Range secondRange = new Range(this.from, this.to);
-
-        if (this.isInside(range.from)) {
-            firstRange.setTo(range.from);
-
-            if (this.isInside(range.to)) {
-                secondRange.setFrom(range.to);
-
-                if (Math.abs(firstRange.from - firstRange.to) <= epsilon && !secondRange.equals(this)) {
-                    return new Range[]{secondRange};
-                }
-
-                if (Math.abs(secondRange.from - secondRange.to) <= epsilon) {
-                    return new Range[]{firstRange};
-                }
-
-                return new Range[]{firstRange, secondRange};
-            }
-
-            return new Range[]{firstRange};
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+        } else if (from < range.from && to < range.to && to > range.from) {
+            return new Range[]{new Range(from, range.from)};
         }
-
-        if (this.isInside(range.to)) {
-            firstRange.setFrom(range.to);
-            return new Range[]{firstRange};
-        }
-
         return new Range[]{};
     }
 
-    public boolean equals(Range range) {
-        double epsilon = 1.0e-10;
-
-        return Math.abs(this.from - range.from) <= epsilon && Math.abs(this.to - range.to) <= epsilon;
+    @Override
+    public String toString() {
+        return String.format("(%f, %f)", from, to);
     }
 }
