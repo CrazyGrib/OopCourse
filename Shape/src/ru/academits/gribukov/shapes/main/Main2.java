@@ -1,25 +1,16 @@
-package ru.academits.gribukov.main;
+package ru.academits.gribukov.shapes.main;
 
-import ru.academits.gribukov.shape.*;
-
-import java.util.Arrays;
-import java.util.Random;
+import ru.academits.gribukov.shapes.*;
 
 public class Main2 {
     public static void main(String[] args) {
-        Random random = new Random();
-
         Shape square1 = new Square(5.5);
-        Shape triangle1 = new Triangle(0, 0,
-                1.1, 1.1,
-                0.1, 2.2);
+        Shape triangle1 = new Triangle(0, 0, 1.1, 1.1, 0.1, 2.2);
         Shape rectangle1 = new Rectangle(4.5, 6.1);
         Shape circle1 = new Circle(3.5);
 
         Shape square2 = new Square(5.5);
-        Shape triangle2 = new Triangle(0, 0,
-                1.1, 1.1,
-                0.1, 2.2);
+        Shape triangle2 = new Triangle(0, 0, 1.1, 1.1, 0.1, 2.2);
         Shape rectangle2 = new Rectangle(4.5, 6.1);
         Shape circle2 = new Circle(3.5);
 

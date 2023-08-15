@@ -1,10 +1,18 @@
-package ru.academits.gribukov.shape;
+package ru.academits.gribukov.shapes;
 
 public class Circle implements Shape {
-    private final double radius;
+    private double radius;
 
     public Circle(double radius) {
         this.radius = radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     @Override
@@ -19,7 +27,7 @@ public class Circle implements Shape {
 
     @Override
     public double getArea() {
-        return Math.PI * Math.pow(radius, 2);
+        return Math.PI * radius * radius;
     }
 
     @Override
@@ -46,15 +54,11 @@ public class Circle implements Shape {
             return true;
         }
 
-        if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-
-        if (obj.hashCode() != this.hashCode()) {
+        if (obj == null || obj.getClass() != getClass()) {
             return false;
         }
 
         Circle circle = (Circle) obj;
-        return circle.radius == this.radius;
+        return circle.radius == radius;
     }
 }

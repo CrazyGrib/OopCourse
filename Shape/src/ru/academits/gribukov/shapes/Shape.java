@@ -1,4 +1,4 @@
-package ru.academits.gribukov.shape;
+package ru.academits.gribukov.shapes;
 
 public interface Shape {
     double getWidth();

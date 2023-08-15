@@ -1,12 +1,19 @@
-package ru.academits.gribukov.shape;
+package ru.academits.gribukov.shapes;
 
 public class Rectangle implements Shape {
-
-    private final double height;
-    private final double width;
+    private double height;
+    private double width;
 
     public Rectangle(double length, double width) {
         this.height = length;
+        this.width = width;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setWidth(double width) {
         this.width = width;
     }
 
@@ -50,15 +57,11 @@ public class Rectangle implements Shape {
             return true;
         }
 
-        if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-
-        if (obj.hashCode() != this.hashCode()) {
+        if (obj == null || obj.getClass() != getClass()) {
             return false;
         }
 
         Rectangle rectangle = (Rectangle) obj;
-        return rectangle.height == this.height && rectangle.width == this.width;
+        return rectangle.height == height && rectangle.width == width;
     }
 }
