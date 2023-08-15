@@ -39,13 +39,13 @@ public class Vector {
         return "{" + arrays.substring(1, arrays.length() - 1) + "}";
     }
 
-    private void bringingTotalSize(Vector vector2) {
-        if (elements.length > vector2.elements.length) {
-            vector2.elements = Arrays.copyOf(vector2.elements, elements.length);
+    private void bringingTotalSize(Vector vector) {
+        if (elements.length > vector.elements.length) {
+            vector.elements = Arrays.copyOf(vector.elements, elements.length);
         }
 
-        if (vector2.elements.length > elements.length) {
-            elements = Arrays.copyOf(elements, vector2.elements.length);
+        if (vector.elements.length > elements.length) {
+            elements = Arrays.copyOf(elements, vector.elements.length);
         }
     }
 
