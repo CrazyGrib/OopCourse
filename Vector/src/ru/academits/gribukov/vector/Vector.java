@@ -37,6 +37,10 @@ public class Vector {
         this.elements = elements;
     }
 
+    public int getSize() {
+        return elements.length;
+    }
+
     @Override
     public String toString() {
         String arrays = Arrays.toString(elements);
