@@ -29,8 +29,12 @@ public class Vector {
         this.elements = Arrays.copyOf(elements, size);
     }
 
-    public int getSize() {
-        return elements.length;
+    public double[] getElements() {
+        return elements;
+    }
+
+    public void setElements(double[] elements) {
+        this.elements = elements;
     }
 
     @Override
