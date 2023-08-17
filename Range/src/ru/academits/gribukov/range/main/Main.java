@@ -38,18 +38,17 @@ public class Main {
         System.out.println();
 
         Range range1 = new Range(12, 24);
-        Range range2 = new Range(13, 16);
+        Range range2 = new Range(24, 26);
 
-        System.out.printf("Имеем 2 диапазона %n" + range1 + "%n" + range2 + "%n");
+        System.out.printf("Имеем 2 диапазона %n%s%n%s%n", range1, range2);
 
-        Range intersectionRange = range1.getIntersection(range2);
-        System.out.printf("Результат пересечения диапазонов%n" + intersectionRange + "%n");
+        Range intersection = range1.getIntersection(range2);
+        System.out.printf("Результат пересечения диапазонов%n%s%n", intersection);
 
-        Range[] rangeUnionArray = range1.getUnion(range2);
-        System.out.printf("Результат объединения диапазонов%n" + Arrays.toString(rangeUnionArray) + "%n");
+        Range[] union = range1.getUnion(range2);
+        System.out.printf("Результат объединения диапазонов%n%s%n", Arrays.toString(union));
 
-
-        Range[] rangeDifferenceArray = range1.getDifference(range2);
-        System.out.printf("Результат разности диапазонов%n" + Arrays.toString(rangeDifferenceArray) + "%n");
+        Range[] difference = range1.getDifference(range2);
+        System.out.printf("Результат разности диапазонов%n%s%n", Arrays.toString(difference));
     }
 }
