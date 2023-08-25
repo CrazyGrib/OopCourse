@@ -21,11 +21,11 @@ public class Main {
 
         System.out.println("2.size = " + vector2.getSize());
 
-        vector2.add(vector3);
-        System.out.println("2 + 3 = " + vector2);
+        vector4.add(vector3);
+        System.out.println("4 + 3 = " + vector4);
 
-        vector2.subtract(vector3);
-        System.out.println("2 - 3 = " + vector2);
+        vector3.subtract(vector4);
+        System.out.println("3 - 4 = " + vector3);
 
         vector2.multiplyByScalar(3);
         System.out.println("2 * \"3\" = " + vector2);

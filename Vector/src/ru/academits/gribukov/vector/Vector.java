@@ -7,7 +7,7 @@ public class Vector {
 
     public Vector(int size) {
         if (size <= 0) {
-            throw new IllegalArgumentException("Размерность вектора не может быть <= 0");
+            throw new IllegalArgumentException("Размерность вектора не может быть <= 0. Указанный размер равен: " + size);
         }
 
         elements = new double[size];
@@ -18,23 +18,35 @@ public class Vector {
             throw new NullPointerException("Вектор не может быть null.");
         }
 
-        this.elements = Arrays.copyOf(vector.elements, vector.elements.length);
+        elements = Arrays.copyOf(vector.elements, vector.elements.length);
     }
 
     public Vector(double[] elements) {
+        if (elements == null) {
+            throw new NullPointerException("Вектор не может быть null.");
+        }
+
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("Размерность вектора не может быть = 0. Указанный размер равен: " + elements.length);
+        }
+
         this.elements = Arrays.copyOf(elements, elements.length);
     }
 
     public Vector(int size, double[] elements) {
+        if (elements == null) {
+            throw new NullPointerException("Вектор не может быть null.");
+        }
+
+        if (size <= 0) {
+            throw new IllegalArgumentException("Размерность вектора не может быть <= 0. Указанный размер равен: " + size);
+        }
+
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("Размерность вектора не может быть = 0. Указанный размер равен: " + elements.length);
+        }
+
         this.elements = Arrays.copyOf(elements, size);
-    }
-
-    public double[] getElements() {
-        return elements;
-    }
-
-    public void setElements(double[] elements) {
-        this.elements = elements;
     }
 
     public int getSize() {
@@ -43,32 +55,48 @@ public class Vector {
 
     @Override
     public String toString() {
-        String arrays = Arrays.toString(elements);
-        return "{" + arrays.substring(1, arrays.length() - 1) + "}";
+        int length = elements.length - 1;
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append('{');
+
+        for (int i = 0; ; i++) {
+            stringBuilder.append(elements[i]);
+
+            if (i == length) {
+                return stringBuilder.append('}').toString();
+            }
+
+            stringBuilder.append(", ");
+        }
     }
 
-    private void bringingTotalSize(Vector vector) {
-        if (elements.length > vector.elements.length) {
-            vector.elements = Arrays.copyOf(vector.elements, elements.length);
-        }
-
+    private void bringToTotalSize(Vector vector) {
         if (vector.elements.length > elements.length) {
             elements = Arrays.copyOf(elements, vector.elements.length);
         }
     }
 
     public void add(Vector vector) {
-        bringingTotalSize(vector);
+        bringToTotalSize(vector);
 
         for (int i = 0; i < elements.length; i++) {
+            if (i >= vector.elements.length) {
+                break;
+            }
+
             elements[i] += vector.elements[i];
         }
     }
 
     public void subtract(Vector vector) {
-        bringingTotalSize(vector);
+        bringToTotalSize(vector);
 
         for (int i = 0; i < elements.length; i++) {
+            if (i >= vector.elements.length) {
+                break;
+            }
+
             elements[i] -= vector.elements[i];
         }
     }
@@ -151,7 +179,7 @@ public class Vector {
     }
 
     public static double scalarProductVectors(Vector vector1, Vector vector2) {
-        vector1.bringingTotalSize(vector2);
+        vector1.bringToTotalSize(vector2);
         double result = 0;
 
         for (int i = 0; i < vector1.elements.length; i++) {
