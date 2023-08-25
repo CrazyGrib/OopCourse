@@ -1,12 +1,12 @@
 package ru.academits.gribukov.shapes.main;
 
-import ru.academits.gribukov.shapes.comparator.shapeAreaComparator;
+import ru.academits.gribukov.shapes.comparators.ShapeAreaComparator;
 import ru.academits.gribukov.shapes.*;
-import ru.academits.gribukov.shapes.comparator.shapePerimeterComparator;
+import ru.academits.gribukov.shapes.comparators.ShapePerimeterComparator;
 
 import java.util.Arrays;
 
-public class Main {
+public class Main1 {
     public static void main(String[] args) {
         Shape square1 = new Square(2);
         Shape square2 = new Square(5);
@@ -80,28 +80,42 @@ public class Main {
         System.out.println();
 
         Shape shapeWithMaxArea = getShapeWithMaxArea(shapes);
-        System.out.printf("Фигура с самой большой площадью %s%nПлощадь равна: %f", shapeWithMaxArea, shapeWithMaxArea != null ? shapeWithMaxArea.getArea() : 0);
+        if (shapeWithMaxArea == null) {
+            System.out.print("Фигуры с самой большой площадью нет.");
+        } else {
+            System.out.printf("Фигура с самой большой площадью %s%nПлощадь равна: %f", shapeWithMaxArea, shapeWithMaxArea.getArea());
+        }
         System.out.println();
 
-        Shape shapeWithSecondMaxArea = getShapeWithSecondMaxPerimeter(shapes);
-        System.out.printf("Фигура со вторым по величине периметром %s%nПериметр равен: %f", shapeWithSecondMaxArea, shapeWithSecondMaxArea != null ? shapeWithSecondMaxArea.getArea() : 0);
+        Shape shapeWithSecondMaxPerimeter = getShapeWithSecondMaxPerimeter(shapes);
+        if (shapeWithSecondMaxPerimeter == null) {
+            System.out.print("Фигуры со вторым по величине периметром нет.");
+        } else {
+            System.out.printf("Фигура со вторым по величине периметром %s%nПериметр равен: %f", shapeWithSecondMaxPerimeter, shapeWithSecondMaxPerimeter.getPerimeter());
+        }
     }
 
     public static Shape getShapeWithMaxArea(Shape... shapes) {
         if (shapes.length == 0) {
             return null;
         }
-        Shape[] arrayShapesSortedByArea = Arrays.copyOf(shapes, shapes.length);
-        Arrays.sort(arrayShapesSortedByArea, new shapeAreaComparator());
-        return arrayShapesSortedByArea[0];
+
+        Shape[] shapesSortedByArea = Arrays.copyOf(shapes, shapes.length);
+        Arrays.sort(shapesSortedByArea, new ShapeAreaComparator());
+        return shapesSortedByArea[0];
     }
 
     public static Shape getShapeWithSecondMaxPerimeter(Shape... shapes) {
         if (shapes.length == 0) {
             return null;
         }
-        Shape[] arrayShapesSortedByPerimeter = Arrays.copyOf(shapes, shapes.length);
-        Arrays.sort(arrayShapesSortedByPerimeter, new shapePerimeterComparator());
-        return arrayShapesSortedByPerimeter[1];
+
+        if (shapes.length == 1) {
+            return null;
+        }
+
+        Shape[] shapesSortedByPerimeter = Arrays.copyOf(shapes, shapes.length);
+        Arrays.sort(shapesSortedByPerimeter, new ShapePerimeterComparator());
+        return shapesSortedByPerimeter[1];
     }
 }

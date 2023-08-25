@@ -1,12 +1,12 @@
 package ru.academits.gribukov.shapes;
 
 public class Triangle implements Shape {
-    private final double x1;
-    private final double y1;
-    private final double x2;
-    private final double y2;
-    private final double x3;
-    private final double y3;
+    private double x1;
+    private double y1;
+    private double x2;
+    private double y2;
+    private double x3;
+    private double y3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
@@ -14,6 +14,54 @@ public class Triangle implements Shape {
         this.x2 = x2;
         this.y2 = y2;
         this.x3 = x3;
+        this.y3 = y3;
+    }
+
+    public double getX1() {
+        return x1;
+    }
+
+    public void setX1(double x1) {
+        this.x1 = x1;
+    }
+
+    public double getY1() {
+        return y1;
+    }
+
+    public void setY1(double y1) {
+        this.y1 = y1;
+    }
+
+    public double getX2() {
+        return x2;
+    }
+
+    public void setX2(double x2) {
+        this.x2 = x2;
+    }
+
+    public double getY2() {
+        return y2;
+    }
+
+    public void setY2(double y2) {
+        this.y2 = y2;
+    }
+
+    public double getX3() {
+        return x3;
+    }
+
+    public void setX3(double x3) {
+        this.x3 = x3;
+    }
+
+    public double getY3() {
+        return y3;
+    }
+
+    public void setY3(double y3) {
         this.y3 = y3;
     }
 
@@ -27,29 +75,29 @@ public class Triangle implements Shape {
         return Math.max(y1, Math.max(y2, y3)) - Math.min(y1, Math.min(y2, y3));
     }
 
-    public double getSideLength(double x1, double x2, double y1, double y2) {
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     @Override
     public double getArea() {
-        double sideLength1 = getSideLength(x1, x2, y1, y2);
-        double sideLength2 = getSideLength(x1, x3, y1, y3);
-        double sideLength3 = getSideLength(x2, x3, y2, y3);
+        double firstSideLength = getSideLength(x1, y1, x2, y2);
+        double secondSideLength = getSideLength(x1, y1, x3, y3);
+        double thirdSideLength = getSideLength(x2, y2, x3, y3);
 
-        double triangleSemiPerimeter = getPerimeter() / 2;
-        return Math.sqrt(triangleSemiPerimeter * (triangleSemiPerimeter - sideLength1) *
-                (triangleSemiPerimeter - sideLength2) * (triangleSemiPerimeter - sideLength3));
+        double triangleSemiPerimeter = (firstSideLength + secondSideLength + thirdSideLength) / 2;
+        return Math.sqrt(triangleSemiPerimeter * (triangleSemiPerimeter - firstSideLength) *
+                (triangleSemiPerimeter - secondSideLength) * (triangleSemiPerimeter - thirdSideLength));
     }
 
     @Override
     public double getPerimeter() {
-        return getSideLength(x1, x2, y1, y2) + getSideLength(x1, x3, y1, y3) + getSideLength(x2, x3, y2, y3);
+        return getSideLength(x1, y1, x2, y2) + getSideLength(x1, y1, x3, y3) + getSideLength(x2, y2, x3, y3);
     }
 
     @Override
     public String toString() {
-        return String.format("Triangle. (%f ; %f), (%f ; %f), (%f ; %f)", x1, y1, x2, y2, x3, y3);
+        return String.format("Triangle. (%f; %f), (%f; %f), (%f; %f)", x1, y1, x2, y2, x3, y3);
     }
 
     @Override

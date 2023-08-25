@@ -7,12 +7,12 @@ public class Square implements Shape {
         this.sideLength = sideLength;
     }
 
-    public void setSide(double sideLength) {
-        this.sideLength = sideLength;
-    }
-
     public double getSideLength() {
         return sideLength;
+    }
+
+    public void setSideLength(double sideLength) {
+        this.sideLength = sideLength;
     }
 
     @Override
