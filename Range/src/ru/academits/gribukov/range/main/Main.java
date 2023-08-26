@@ -29,16 +29,16 @@ public class Main {
         double number = scanner.nextDouble();
 
         if (range.isInside(number)) {
-            System.out.printf("Число %f принадлежит диапазону (%f;%f)", number, range.getFrom(), range.getTo());
+            System.out.printf("Число %f принадлежит диапазону %s", number, range);
         } else {
-            System.out.printf("Число %f не принадлежит диапазону (%f;%f)", number, range.getFrom(), range.getTo());
+            System.out.printf("Число %f не принадлежит диапазону %s", number, range);
         }
 
         System.out.println();
         System.out.println();
 
-        Range range1 = new Range(12, 24);
-        Range range2 = new Range(24, 26);
+        Range range1 = new Range(1, 7);
+        Range range2 = new Range(3, 7);
 
         System.out.printf("Имеем 2 диапазона %n%s%n%s%n", range1, range2);
 

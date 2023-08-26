@@ -1,5 +1,7 @@
 package ru.academits.gribukov.range;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Range {
     private double from;
     private double to;
@@ -85,19 +87,23 @@ public class Range {
      * @return Range[0] or Range[1] or Range[2]
      */
     public Range[] getDifference(Range range) {
+        if (to <= range.from || from >= range.to) {
+            return new Range[]{new Range(from, to)};
+        }
+
         if (from < range.from && to > range.to) {
             return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
-        if (from < range.from && to < range.to && to > range.from) {
+        if (from >= range.from && to <= range.to) {
+            return new Range[]{};
+        }
+
+        if (to <= range.to) {
             return new Range[]{new Range(from, range.from)};
         }
 
-        if (to <= range.from) {
-            return new Range[]{new Range(from, to)};
-        }
-
-        return new Range[]{};
+        return new Range[]{new Range(range.to, to)};
     }
 
     @Override
