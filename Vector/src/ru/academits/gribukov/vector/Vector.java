@@ -78,6 +78,10 @@ public class Vector {
     }
 
     public void add(Vector vector) {
+        if (vector == null) {
+            throw new NullPointerException("Нельзя добавить null к вектору.");
+        }
+
         bringToTotalSize(vector);
 
         for (int i = 0; i < elements.length; i++) {
@@ -90,6 +94,10 @@ public class Vector {
     }
 
     public void subtract(Vector vector) {
+        if (vector == null) {
+            throw new NullPointerException("Нельзя вычесть null из вектора.");
+        }
+
         bringToTotalSize(vector);
 
         for (int i = 0; i < elements.length; i++) {
@@ -107,18 +115,18 @@ public class Vector {
         }
     }
 
-    public void revers() {
+    public void reverse() {
         multiplyByScalar(-1);
     }
 
     public double getLength() {
-        double length = 0;
+        double coordinateSum = 0;
 
         for (double element : elements) {
-            length += Math.abs(element);
+            coordinateSum += Math.pow(element, 2);
         }
 
-        return Math.sqrt(length);
+        return Math.sqrt(coordinateSum);
     }
 
     public double getElement(int index) {
@@ -140,49 +148,44 @@ public class Vector {
         }
 
         Vector vector = (Vector) obj;
-
-        if (elements.length != vector.elements.length) {
-            return false;
-        }
-
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i] != vector.elements[i]) {
-                return false;
-            }
-        }
-
-        return true;
+        return Arrays.equals(elements, vector.elements);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 37;
-        int hash = 1;
+        return Arrays.hashCode(elements);
+    }
 
-        for (double element : elements) {
-            hash = prime * hash + Double.hashCode(element);
+
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        if (vector1 == null || vector2 == null) {
+            throw new NullPointerException("Вектор не может быть null.");
         }
 
-        return hash;
+        Vector sum = new Vector(vector1);
+        sum.add(vector2);
+        return sum;
     }
 
-    public static Vector additionVectors(Vector vector1, Vector vector2) {
-        Vector resultAddition = new Vector(vector1);
-        resultAddition.add(vector2);
-        return resultAddition;
+    public static Vector getDifference(Vector vector1, Vector vector2) {
+        if (vector1 == null || vector2 == null) {
+            throw new NullPointerException("Вектор не может быть null.");
+        }
+
+        Vector difference = new Vector(vector1);
+        difference.subtract(vector2);
+        return difference;
     }
 
-    public static Vector subtractionVectors(Vector vector1, Vector vector2) {
-        Vector resultSubtraction = new Vector(vector1);
-        resultSubtraction.subtract(vector2);
-        return resultSubtraction;
-    }
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
+        if (vector1 == null || vector2 == null) {
+            throw new NullPointerException("Вектор не может быть null.");
+        }
 
-    public static double scalarProductVectors(Vector vector1, Vector vector2) {
-        vector1.bringToTotalSize(vector2);
+        int minSize = Math.min(vector1.elements.length, vector2.elements.length);
         double result = 0;
 
-        for (int i = 0; i < vector1.elements.length; i++) {
+        for (int i = 0; i < minSize; i++) {
             result += vector1.elements[i] * vector2.elements[i];
         }
 
