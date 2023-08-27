@@ -8,6 +8,10 @@ public class Matrix {
     private Vector[] matrix;
 
     public Matrix(int n, int m) {
+        if (n <= 0 || m <= 0) {
+            throw new IllegalArgumentException("Размерность матрицы не может быть <= 0. Указанный размер равен: " + n + ":" + m);
+        }
+
         matrix = new Vector[n];
         for (int i = 0; i < matrix.length; i++) {
             matrix[i] = new Vector(m);
@@ -15,10 +19,22 @@ public class Matrix {
     }
 
     public Matrix(Matrix matrix) {
+        if (matrix == null) {
+            throw new NullPointerException("Матрица не может быть null.");
+        }
+
         this.matrix = Arrays.copyOf(matrix.matrix, matrix.matrix.length);
     }
 
     public Matrix(double[][] matrix) {
+        if (matrix == null) {
+            throw new NullPointerException("Матрица не может быть null.");
+        }
+
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            throw new IllegalArgumentException("Размерность матрицы не может быть = 0. Указанный размер равен: " + matrix.length);
+        }
+
         this.matrix = new Vector[matrix.length];
         int maxSize = 0;
 
@@ -32,6 +48,14 @@ public class Matrix {
     }
 
     public Matrix(Vector[] matrix) {
+        if (matrix == null) {
+            throw new NullPointerException("Матрица не может быть null.");
+        }
+
+        if (matrix.length == 0) {
+            throw new IllegalArgumentException("Размерность матрицы не может быть = 0. Указанный размер равен: " + matrix.length);
+        }
+
         this.matrix = new Vector[matrix.length];
         int maxSize = 0;
 
@@ -40,7 +64,15 @@ public class Matrix {
         }
 
         for (int i = 0; i < this.matrix.length; i++) {
-            this.matrix[i] = new Vector(maxSize, matrix[i].getElements());
+            this.matrix[i] = new Vector(maxSize);
+
+            for (int j = 0; j < maxSize; j++) {
+                if (j < matrix[i].getSize()) {
+                    this.matrix[i].setElement(j, matrix[i].getElement(j));
+                } else {
+                    break;
+                }
+            }
         }
     }
 
@@ -59,14 +91,38 @@ public class Matrix {
     }
 
     public Vector getVectorN(int index) {
+        if (index < 0 || index > getSizeN()) {
+            throw new IllegalArgumentException("Выход за рамки матрицы. Размер матрицы: " + getSizeN() + ":" + getSizeM());
+        }
+
         return matrix[index];
     }
 
     public void setVectorN(int index, Vector vector) {
-        matrix[index] = new Vector(getSizeM(), vector.getElements());
+        if (index < 0 || index > getSizeN()) {
+            throw new IllegalArgumentException("Выход за рамки матрицы. Размер матрицы: " + getSizeN() + ":" + getSizeM());
+        }
+
+        if (vector == null) {
+            throw new NullPointerException("Добавляемый вектор не может быть null.");
+        }
+
+        matrix[index] = new Vector(getSizeM());
+
+        for (int i = 0; i < getSizeM(); i++) {
+            if (i < vector.getSize()) {
+                matrix[index].setElement(i, vector.getElement(i));
+            } else {
+                break;
+            }
+        }
     }
 
     public Vector getVectorM(int index) {
+        if (index < 0 || index > getSizeM()) {
+            throw new IllegalArgumentException("Выход за рамки матрицы. Размер матрицы: " + getSizeN() + ":" + getSizeM());
+        }
+
         double[] elements = new double[getSizeN()];
 
         for (int i = 0; i < getSizeN(); i++) {
@@ -94,75 +150,83 @@ public class Matrix {
 
     public double getDeterminant() {
         if (getSizeM() != getSizeN()) {
-            throw new NullPointerException("Оперделитель можно вычислить только для квадратной матрицы.");
+            throw new IllegalArgumentException("Оперделитель можно вычислить только для квадратной матрицы.");
         }
 
         if (getSizeM() == 1) {
             return matrix[0].getElement(0);
         }
 
-        if (getSizeM() == 2) {
-            return matrix[0].getElement(0) * matrix[1].getElement(1) - matrix[0].getElement(1) * matrix[1].getElement(0);
-        }
-
-        return getDeterminant(matrix, 1);
+        return getDeterminant(this);
     }
 
-    private static double getDeterminant(Vector[] matrix, double coefficient) {
+    private static double getDeterminant(Matrix matrix) {
         double determinant = 0;
 
-        if (matrix.length <= 1) {
-            return coefficient * matrix[0].getElement(0);
+        if (matrix.getSizeN() == 2) {
+            Vector vector1 = matrix.getVectorN(0);
+            Vector vector2 = matrix.getVectorN(1);
+            return vector1.getElement(0) * vector2.getElement(1)
+                    - vector1.getElement(1) * vector2.getElement(0);
         } else {
-            Vector[] subMatrix = new Vector[matrix.length - 1];
+            int koeff;
+            Vector vector = matrix.getVectorN(0);
 
-            for (int i = 0; i < subMatrix.length; i++) {
-                subMatrix[i] = new Vector(matrix[0].getSize() - 1);
-            }
-
-            for (int i = 0; i < matrix[0].getSize(); i++) {
-                for (int j = 1; j < matrix.length; j++) {
-                    for (int k = 0; k < matrix[0].getSize(); k++) {
-                        if (k < i) {
-                            subMatrix[j - 1].setElement(k, matrix[j].getElement(k));
-                        } else if (k > i) {
-                            subMatrix[j - 1].setElement(k - 1, matrix[j].getElement(k));
-                        }
-                    }
+            for (int i = 0; i < matrix.getSizeN(); i++) {
+                if (i % 2 == 1) {
+                    koeff = -1;
+                } else {
+                    koeff = 1;
                 }
 
-                double minorDeterminant = Math.pow(-1, i) * matrix[0].getElement(i) * coefficient;
-                determinant += getDeterminant(subMatrix, minorDeterminant);
+                determinant += koeff * vector.getElement(i) * getDeterminant(getMinor(matrix, i));
             }
         }
 
         return determinant;
     }
 
-    private static double getDeterminant(Vector[] matrix, Vector vector) {
-        double determinant = 0;
-        Vector[] subMatrix = new Vector[matrix.length - 1];
+    private static Matrix getMinor(Matrix matrix, int column) {
+        int minorMatrixSize = matrix.getSizeN() - 1;
+        double[][] minor = new double[minorMatrixSize][minorMatrixSize];
+        int dI = 0;
 
-        for (int i = 0; i < subMatrix.length; i++) {
-            subMatrix[i] = new Vector(matrix[0].getSize() - 1);
-        }
+        for (int i = 0; i <= minorMatrixSize; i++) {
+            int dJ = 0;
 
-        for (int i = 0; i < matrix[0].getSize(); i++) {
-            for (int j = 1; j < matrix.length; j++) {
-                for (int k = 0; k < matrix[0].getSize(); k++) {
-                    if (k < i) {
-                        subMatrix[j - 1].setElement(k, matrix[j].getElement(k));
-                    } else if (k > i) {
-                        subMatrix[j - 1].setElement(k - 1, matrix[j].getElement(k));
+            for (int j = 0; j <= minorMatrixSize; j++) {
+                if (i == 0) {
+                    dI = 1;
+                    break;
+                } else {
+                    if (j == column) {
+                        dJ = 1;
+                    } else {
+                        minor[i - dI][j - dJ] = matrix.getVectorN(i).getElement(j);
                     }
                 }
             }
-
-            double minorDeterminant = Math.pow(-1, i) * matrix[0].getElement(i);
-            determinant += getDeterminant(subMatrix, minorDeterminant);
         }
 
+        return new Matrix(minor);
+    }
 
-        return determinant;
+    public Vector multiplyByVectorM(Vector vector) {
+        if (vector == null) {
+            throw new NullPointerException("Вектор не должен быть null.");
+        }
+
+        if (vector.getSize() != getSizeM()) {
+            throw new IllegalArgumentException("Число столбцов в матрице должно совпадать с числом строк в векторе. " +
+                    "Размер переданного вектора: " + vector.getSize() + ". Размер матрицы: " + getSizeN() + ":" + getSizeM());
+        }
+
+        Vector resultVector = new Vector(getSizeM());
+
+        for (int i = 0; i < getSizeM(); i++) {
+            resultVector.setElement(i, Vector.getScalarProduct(matrix[i], vector));
+        }
+
+        return resultVector;
     }
 }

@@ -3,7 +3,6 @@ package ru.academits.gribukov.matrix.main;
 import ru.academits.gribukov.matrix.Matrix;
 import ru.academits.gribukov.vector.Vector;
 
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,9 +32,9 @@ public class Main {
 
         System.out.printf("Размер матрицы m4: N = %d, M = %d%n", matrix4.getSizeN(), matrix4.getSizeM());
         System.out.println("Вектор-строка индекса 1 - " + matrix4.getVectorN(1));
-        Vector vector = new Vector(new double[]{12, 23, 34});
-        System.out.println("В m4 в индекс 1 вставляем вектор - " + vector);
-        matrix4.setVectorN(1, vector);
+        Vector vector1 = new Vector(new double[]{12, 23, 34});
+        System.out.println("В m4 в индекс 1 вставляем вектор - " + vector1);
+        matrix4.setVectorN(1, vector1);
         System.out.printf("Получилась матрица:%n%s%n", matrix4);
         System.out.println("Вектор-столбец индекса 1 - " + matrix4.getVectorM(1));
         System.out.println();
@@ -49,13 +48,18 @@ public class Main {
         System.out.println();
 
         arrays = new double[][]{
-                {1, 0, -2},
-                {3, 2, 1},
-                {1, 2, -2}
+                {1, 1, -2, 1},
+                {3, 2, 1, 2},
+                {1, 2, -2, 3},
+                {1, 2, 3, 0}
         };
         Matrix matrix5 = new Matrix(arrays);
 
         System.out.println("m5 - " + matrix5);
         System.out.printf("Определитель матрицы m5:%n%f%n", matrix5.getDeterminant());
+
+        Vector vector2 = new Vector(new double[]{1, 2, 3, 4});
+        System.out.printf("Умножили матрицу m5 на вектор-столбец:%n%s%n", vector2);
+        System.out.println(matrix5.multiplyByVectorM(vector2));
     }
 }
