@@ -1,7 +1,5 @@
 package ru.academits.gribukov.range;
 
-import org.jetbrains.annotations.NotNull;
-
 public class Range {
     private double from;
     private double to;
